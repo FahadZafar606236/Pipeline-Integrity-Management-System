@@ -317,3 +317,169 @@ def corrosion_allowance(
         )
 
     return nominal_thickness - minimum_thickness
+def corrosion_loss_percentage(initial_thickness, current_thickness):
+    """
+    Calculate the percentage of wall thickness lost due to corrosion.
+
+    Parameters:
+        initial_thickness (float): Original pipe wall thickness
+        current_thickness (float): Current measured wall thickness
+
+    Returns:
+        float: Corrosion loss percentage
+    """
+
+    # Validate inputs
+    if initial_thickness <= 0:
+        raise ValueError("Initial thickness must be greater than zero.")
+
+    if current_thickness < 0:
+        raise ValueError("Current thickness cannot be negative.")
+
+    if current_thickness > initial_thickness:
+        raise ValueError("Current thickness cannot be greater than initial thickness.")
+
+    loss = initial_thickness - current_thickness
+    loss_percentage = (loss / initial_thickness) * 100
+
+    return round(loss_percentage, 2)    
+"""
+Calculate the safety factor.
+
+Purpose:
+    Determines how much thicker the current pipeline wall is
+    compared to the minimum required wall thickness.
+
+Formula:
+    Safety Factor =
+        Current Thickness / Minimum Required Thickness
+
+Parameters:
+    current_thickness (float):
+        Current measured wall thickness (mm).
+
+    minimum_required_thickness (float):
+        Minimum required wall thickness (mm).
+
+Returns:
+    float:
+        Safety factor.
+
+Raises:
+    ValueError:
+        If any input value is invalid.
+"""
+
+def safety_factor(
+    current_thickness: float,
+    minimum_required_thickness: float,
+) -> float:
+    """
+    Calculate pipeline safety factor.
+    """
+
+    if current_thickness <= 0:
+        raise ValueError("Current thickness must be greater than zero.")
+
+    if minimum_required_thickness <= 0:
+        raise ValueError(
+            "Minimum required thickness must be greater than zero."
+        )
+
+    factor = current_thickness / minimum_required_thickness
+
+    return round(factor, 2)    
+def health_score(
+    remaining_life: float,
+    corrosion_rate: float,
+    safety_factor: float,
+    corrosion_loss_percentage: float,
+) -> int:
+    """
+    Calculate an overall pipeline health score (0–100).
+    """
+
+    score = 0
+
+    # Remaining Life (35 points)
+    if remaining_life >= 25:
+        score += 35
+    elif remaining_life >= 15:
+        score += 28
+    elif remaining_life >= 10:
+        score += 21
+    elif remaining_life >= 5:
+        score += 14
+    else:
+        score += 7
+
+    # Corrosion Rate (25 points)
+    if corrosion_rate <= 0.10:
+        score += 25
+    elif corrosion_rate <= 0.20:
+        score += 20
+    elif corrosion_rate <= 0.50:
+        score += 15
+    elif corrosion_rate <= 1.00:
+        score += 8
+    else:
+        score += 3
+
+    # Safety Factor (20 points)
+    if safety_factor >= 2.0:
+        score += 20
+    elif safety_factor >= 1.5:
+        score += 16
+    elif safety_factor >= 1.2:
+        score += 12
+    elif safety_factor >= 1.0:
+        score += 8
+    else:
+        score += 2
+
+    # Corrosion Loss % (20 points)
+    if corrosion_loss_percentage <= 10:
+        score += 20
+    elif corrosion_loss_percentage <= 20:
+        score += 16
+    elif corrosion_loss_percentage <= 40:
+        score += 12
+    elif corrosion_loss_percentage <= 60:
+        score += 8
+    else:
+        score += 2
+
+    # Keep score between 0 and 100
+    score = max(0, min(score, 100))
+
+    return score  
+
+
+from datetime import datetime
+
+def estimated_failure_year(current_year: int, remaining_life: float) -> int:
+    """
+    Estimate the calendar year when the pipeline reaches failure condition.
+
+    Parameters:
+        current_year (int):
+            Base year of evaluation.
+
+        remaining_life (float):
+            Remaining service life in years.
+
+    Returns:
+        int:
+            Estimated failure year.
+
+    Engineering Formula:
+        Failure Year = Current Year + Remaining Life
+    """
+
+    if remaining_life < 0:
+        raise ValueError("Remaining life cannot be negative.")
+
+    if remaining_life == float("inf"):
+        raise ValueError("Infinite life means no failure prediction.")
+
+    return current_year + int(round(remaining_life))
