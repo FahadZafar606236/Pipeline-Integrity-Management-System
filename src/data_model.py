@@ -1,4 +1,5 @@
 import pandas as pd
+from datetime import datetime
 from pathlib import Path
 
 # Path to the CSV file
@@ -47,8 +48,6 @@ def save_data(df):
     df.to_csv(DATA_FILE, index=False)
 
 
-from datetime import datetime
-
 
 def validate_record(record):
     """
@@ -86,6 +85,17 @@ def validate_record(record):
     if record["Current Thickness (mm)"] <= 0:
         return False, "Current Thickness must be greater than zero."
 
+    # Outside Diameter must be positive
+    if record["Outside Diameter (mm)"] <= 0:
+        return False, "Outside Diameter must be greater than zero."
+
+# Current Thickness cannot exceed Initial Thickness
+    if (
+        record["Current Thickness (mm)"] > record["Initial Thickness (mm)"]):
+        return (
+            False,
+            "Current Thickness cannot exceed Initial Thickness."
+        )
     # Pressure must be positive
     if record["Operating Pressure (MPa)"] <= 0:
         return False, "Operating Pressure must be greater than zero."

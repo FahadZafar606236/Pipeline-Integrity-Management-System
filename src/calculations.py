@@ -184,6 +184,8 @@ Raises:
     ValueError:
         If any input value is invalid.
 """
+
+
 def remaining_life(
     current_thickness: float,
     minimum_thickness: float,
@@ -243,6 +245,8 @@ Raises:
     ValueError:
         If remaining life is negative.
 """
+
+
 def next_inspection_date(
     remaining_life: float,
 ) -> str:
@@ -297,6 +301,8 @@ Raises:
     ValueError:
         If any input value is invalid.
 """
+
+
 def corrosion_allowance(
     nominal_thickness: float,
     minimum_thickness: float,
@@ -317,7 +323,12 @@ def corrosion_allowance(
         )
 
     return nominal_thickness - minimum_thickness
-def corrosion_loss_percentage(initial_thickness, current_thickness):
+
+
+def corrosion_loss_percentage(
+    initial_thickness: float,
+    current_thickness: float,
+) -> float:
     """
     Calculate the percentage of wall thickness lost due to corrosion.
 
@@ -370,6 +381,7 @@ Raises:
         If any input value is invalid.
 """
 
+
 def safety_factor(
     current_thickness: float,
     minimum_required_thickness: float,
@@ -388,7 +400,9 @@ def safety_factor(
 
     factor = current_thickness / minimum_required_thickness
 
-    return round(factor, 2)    
+    return round(factor, 2)
+
+
 def health_score(
     remaining_life: float,
     corrosion_rate: float,
@@ -402,7 +416,9 @@ def health_score(
     score = 0
 
     # Remaining Life (35 points)
-    if remaining_life >= 25:
+    if remaining_life < 0:
+        raise ValueError("Remaining life cannot be negative.")
+    elif remaining_life >= 25:
         score += 35
     elif remaining_life >= 15:
         score += 28
@@ -414,7 +430,9 @@ def health_score(
         score += 7
 
     # Corrosion Rate (25 points)
-    if corrosion_rate <= 0.10:
+    if corrosion_rate < 0:
+        raise ValueError("Corrosion rate cannot be negative.")
+    elif corrosion_rate <= 0.10:
         score += 25
     elif corrosion_rate <= 0.20:
         score += 20
@@ -426,7 +444,9 @@ def health_score(
         score += 3
 
     # Safety Factor (20 points)
-    if safety_factor >= 2.0:
+    if safety_factor < 0:
+        raise ValueError("Safety factor cannot be negative.")
+    elif safety_factor >= 2.0:
         score += 20
     elif safety_factor >= 1.5:
         score += 16
@@ -438,7 +458,9 @@ def health_score(
         score += 2
 
     # Corrosion Loss % (20 points)
-    if corrosion_loss_percentage <= 10:
+    if corrosion_loss_percentage < 0:
+        raise ValueError("Corrosion loss percentage cannot be negative.")
+    elif corrosion_loss_percentage <= 10:
         score += 20
     elif corrosion_loss_percentage <= 20:
         score += 16
@@ -454,8 +476,6 @@ def health_score(
 
     return score  
 
-
-from datetime import datetime
 
 def estimated_failure_year(current_year: int, remaining_life: float) -> int:
     """
@@ -475,7 +495,8 @@ def estimated_failure_year(current_year: int, remaining_life: float) -> int:
     Engineering Formula:
         Failure Year = Current Year + Remaining Life
     """
-
+    if current_year < 1900:
+        raise ValueError("Current year cannot be before 1900.")
     if remaining_life < 0:
         raise ValueError("Remaining life cannot be negative.")
 
