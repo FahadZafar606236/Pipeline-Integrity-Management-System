@@ -247,12 +247,12 @@ Raises:
 """
 
 
+from datetime import timedelta
+
 def next_inspection_date(
+    inspection_date,
     remaining_life: float,
 ) -> str:
-    """
-    Calculate the next inspection date.
-    """
 
     if remaining_life < 0:
         raise ValueError("Remaining life cannot be negative.")
@@ -262,11 +262,9 @@ def next_inspection_date(
 
     inspection_interval = remaining_life / 2
 
-    inspection_days = int(inspection_interval * 365)
+    inspection_days = round(inspection_interval * 365)
 
-    today = datetime.today()
-
-    next_date = today + timedelta(days=inspection_days)
+    next_date = inspection_date + timedelta(days=inspection_days)
 
     return next_date.strftime("%Y-%m-%d")
 
