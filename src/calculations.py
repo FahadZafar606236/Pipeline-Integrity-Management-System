@@ -427,6 +427,27 @@ def health_score(
     else:
         score += 7
 
+    """
+Determine the pipeline risk level based on the calculated health score.
+
+Purpose:
+    Classifies the overall pipeline condition into an engineering risk category.
+
+Parameters:
+    score (float):
+        Pipeline health score (0–100).
+
+Returns:
+    str:
+        One of the following risk levels:
+        - Low
+        - Moderate
+        - High
+        - Critical
+"""
+
+   
+
     # Corrosion Rate (25 points)
     if corrosion_rate < 0:
         raise ValueError("Corrosion rate cannot be negative.")
@@ -474,6 +495,22 @@ def health_score(
 
     return score  
 
+def risk_level(score):
+    """
+    Determine the engineering risk level.
+    """
+
+    if score >= 90:
+        return "Low"
+
+    elif score >= 70:
+        return "Moderate"
+
+    elif score >= 50:
+        return "High"
+
+    else:
+        return "Critical" 
 
 def estimated_failure_year(current_year: int, remaining_life: float) -> int:
     """

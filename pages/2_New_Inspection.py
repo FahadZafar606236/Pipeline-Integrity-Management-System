@@ -1,5 +1,52 @@
 import streamlit as st
 
+st.markdown("""
+<style>
+
+/* ===============================
+   KPI Metric Cards - Dark Theme
+================================ */
+
+[data-testid="stMetric"]{
+    background-color: #1E293B;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 16px;
+    transition:
+        border-color 0.20s ease,
+        box-shadow 0.20s ease,
+        transform 0.20s ease;
+}
+
+/* Hover Effect */
+
+[data-testid="stMetric"]:hover{
+    border-color: #3B82F6;
+    box-shadow: 0 4px 12px rgba(59,130,246,0.20);
+    transform: translateY(-2px);
+}
+
+/* Metric Label */
+
+[data-testid="stMetricLabel"]{
+    color: #CBD5E1 !important;
+}
+
+/* Metric Value */
+
+[data-testid="stMetricValue"]{
+    color: #F8FAFC !important;
+}
+
+/* Metric Delta */
+
+[data-testid="stMetricDelta"]{
+    color: inherit !important;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 
 from src.calculations import (
     corrosion_rate,
@@ -11,6 +58,7 @@ from src.calculations import (
     safety_factor,
     health_score,
     estimated_failure_year,
+    risk_level,
 )
 st.title("📝 New Pipeline Inspection")
 
@@ -116,7 +164,7 @@ with st.expander("⚙ Section C – Operating Conditions", expanded=True):
             help="ASME B31.3 temperature coefficient used in thickness calculations."
         )
 
-from datetime import date
+from datetime import date, datetime
 
 with st.expander("📅 Section D – Inspection Information", expanded=True):
 
@@ -271,6 +319,7 @@ if calculate:
                 )
 
                 # Calculate health score
+                
                 score = health_score(
                     life,
                     corrosion,
@@ -278,6 +327,7 @@ if calculate:
                     loss_percentage
                 )
 
+                risk = risk_level(score)
                 # Calculate next inspection date
                 next_date = next_inspection_date(
                     inspection_date,
@@ -296,7 +346,19 @@ if calculate:
                     life
                 )
 
-                # Store results
+                # Store pipeline information
+                st.session_state["pipe_id"] = pipe_id
+                st.session_state["material"] = material
+                st.session_state["inspection_date"] = inspection_date.strftime("%d %B %Y")
+                st.session_state["inspector"] = inspector
+                st.session_state["calculation_date"] = datetime.now().strftime("%d %B %Y")
+                st.session_state["calculation_time"] = datetime.now().strftime("%H:%M")
+
+
+               
+
+
+                # Store engineering results
                 st.session_state["corrosion_rate"] = corrosion
                 st.session_state["minimum_required_thickness"] = min_thickness
                 st.session_state["remaining_life"] = life
@@ -306,30 +368,64 @@ if calculate:
                 st.session_state["next_inspection_date"] = next_date
                 st.session_state["corrosion_allowance"] = allowance
                 st.session_state["estimated_failure_year"] = failure_year
+                st.session_state["risk_level"] = risk
 
-                st.success("✅ Engineering calculations completed successfully.")
+                
 
-            except Exception:
+            except Exception as e:
+                 st.error(f"❌ {e}")
 
-                st.error("❌ Unable to complete engineering calculations.")
-
-                st.info(
-                    "Please check the entered values and try again."
-                )
-if "health_score" in st.session_state:
+                
+if st.session_state.get("health_score") is not None:
     st.divider()
 
     st.markdown("## 📊 Engineering Results")
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.write(f"**🛢️ Pipe ID:** {st.session_state['pipe_id']}")
+        st.write(f"**🔩 Material:** {st.session_state.get('material', '-')}")
+        st.write(f"**📅 Inspection Date:** {st.session_state.get('inspection_date', '-')}")
+
+    with col2:
+        st.write(f"**👷 Inspector:** {st.session_state.get('inspector', '-')}")
+        st.write(f"**📆 Calculation Date:** {st.session_state.get('calculation_date', '-')}")
+        st.write(f"**🕒 Calculation Time:** {st.session_state.get('calculation_time', '-')}")
+
+    st.success("✅ Engineering calculations completed successfully.")
+
+
+
+   
+
+
+
+
     st.caption(
     "Calculated according to ASME B31.3 and API 570 engineering methodology."
     )
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3 ,col4= st.columns(4)
 
     with col1:
+        corrosion = st.session_state["corrosion_rate"]
+
+        if corrosion <= 0.10:
+            arrow = "🟢 ↓"
+            status = "Low"
+
+        elif corrosion <= 0.50:
+            arrow = "🟡 →"
+            status = "Medium"
+
+        else:
+            arrow = "🔴 ↑"
+            status = "High"
+
         st.metric(
             "Corrosion Rate",
-            f"{st.session_state['corrosion_rate']:.3f} mm/year"
+            f"{corrosion:.3f} mm/year",
+            f"{arrow} {status}"
         )
 
     with col2:
@@ -342,8 +438,14 @@ if "health_score" in st.session_state:
         st.metric(
             "Health Score",
             f"{st.session_state['health_score']:.1f}/100"
+            
         )
-        
+        st.progress(st.session_state["health_score"] / 100)
+    with col4:
+        st.metric(
+            "⚠ Risk Level",
+            st.session_state["risk_level"]    
+        )
 
     col1, col2, col3 = st.columns(3)
 
@@ -386,20 +488,117 @@ if "health_score" in st.session_state:
             
         )
 
-    st.markdown("## 💡 Engineering Recommendation")
+st.markdown("## 💡 Engineering Recommendation")
 
-    score = st.session_state["health_score"]
+score = st.session_state["health_score"]
+risk = st.session_state["risk_level"]
+next_date = st.session_state["next_inspection_date"]
+life = st.session_state["remaining_life"]
 
-    if score >= 90:
-        st.success("✅ Continue normal operation. Pipeline condition is excellent.")
+# Priority
+if score >= 90:
+    priority = "LOW"
+    priority_icon = "🟢"
 
-    elif score >= 70:
-        st.warning("⚠ Pipeline is operating safely. Schedule inspection according to API 570.")
+elif score >= 70:
+    priority = "MEDIUM"
+    priority_icon = "🟡"
 
-    else:
-        st.error("🚨 Critical condition detected. Immediate maintenance or pipeline replacement is recommended.")
+elif score >= 50:
+    priority = "HIGH"
+    priority_icon = "🟠"
+
+else:
+    priority = "URGENT"
+    priority_icon = "🔴"
+
+# Recommendation
+if score >= 90:
+
+    recommendation = "Continue Normal Operation"
+
+    condition = (
+        "Pipeline condition is excellent. "
+        "Corrosion is minimal and the asset remains fit for service."
+    )
+
+    action = (
+        "Continue routine monitoring according to the existing inspection program."
+    )
+
+    icon = "🟢"
+
+elif score >= 70:
+
+    recommendation = "Continue Monitoring"
+
+    condition = (
+        "Pipeline condition is satisfactory. "
+        "Some corrosion has been detected but remains within acceptable engineering limits."
+    )
+
+    action = (
+        "Continue operation and perform the next inspection according to API 570."
+    )
+
+    icon = "🟡"
+
+else:
+
+    recommendation = "Immediate Maintenance Required"
+
+    condition = (
+        "Pipeline integrity is significantly degraded. "
+        "The remaining life is limited and failure risk is elevated."
+    )
+
+    action = (
+        "Schedule maintenance, repair, or replacement immediately. "
+        "Engineering evaluation is strongly recommended."
+    )
+
+    icon = "🔴"
+
+# Save recommendation information
+st.session_state["recommendation"] = recommendation
+st.session_state["condition"] = condition
+st.session_state["recommended_action"] = action
+st.session_state["priority"] = priority
+st.session_state["priority_icon"] = priority_icon
+
+
+with st.container(border=True):
+
+    st.markdown(f"### {priority_icon} Priority: **{priority}**")
 
     st.divider()
+
+    st.markdown(f"### {icon} {recommendation}")
+
+    st.markdown("#### Maintenance Priority")
+    st.write(
+        f"This inspection has been classified as **{priority}** priority "
+        "based on the calculated health score."
+    )
+
+    st.markdown("#### Current Condition")
+    st.write(condition)
+
+    st.markdown("#### Recommended Action")
+    st.write(action)
+
+    st.markdown("#### Next Inspection")
+    st.write(next_date)
+
+    st.markdown("#### Remaining Life")
+    st.write(f"{life:.2f} Years")
+
+    st.caption(
+        "Recommendation generated automatically using "
+        "ASME B31.3 and API 570 engineering methodology."
+    )
+
+st.divider()
 
 # ======================================================
 # Future Dashboard Components
