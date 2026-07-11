@@ -488,117 +488,138 @@ if st.session_state.get("health_score") is not None:
             
         )
 
-st.markdown("## 💡 Engineering Recommendation")
+if st.session_state.get("health_score") is not None:
+    st.markdown("## 💡 Engineering Recommendation")
 
-score = st.session_state["health_score"]
-risk = st.session_state["risk_level"]
-next_date = st.session_state["next_inspection_date"]
-life = st.session_state["remaining_life"]
+    score = st.session_state["health_score"]
+    risk = st.session_state["risk_level"]
+    next_date = st.session_state["next_inspection_date"]
+    life = st.session_state["remaining_life"]
 
-# Priority
-if score >= 90:
-    priority = "LOW"
-    priority_icon = "🟢"
+    # Priority
+    if score >= 90:
+        priority = "LOW"
+        priority_icon = "🟢"
 
-elif score >= 70:
-    priority = "MEDIUM"
-    priority_icon = "🟡"
+    elif score >= 70:
+        priority = "MEDIUM"
+        priority_icon = "🟡"
 
-elif score >= 50:
-    priority = "HIGH"
-    priority_icon = "🟠"
+    elif score >= 50:
+        priority = "HIGH"
+        priority_icon = "🟠"
 
-else:
-    priority = "URGENT"
-    priority_icon = "🔴"
+    else:
+        priority = "URGENT"
+        priority_icon = "🔴"
 
-# Recommendation
-if score >= 90:
+    # Recommendation
+    if score >= 90:
 
-    recommendation = "Continue Normal Operation"
+        recommendation = "Continue Normal Operation"
 
-    condition = (
-        "Pipeline condition is excellent. "
-        "Corrosion is minimal and the asset remains fit for service."
-    )
+        condition = (
+            "Pipeline condition is excellent. "
+            "Corrosion is minimal and the asset remains fit for service."
+        )
 
-    action = (
-        "Continue routine monitoring according to the existing inspection program."
-    )
+        action = (
+            "Continue routine monitoring according to the existing inspection program."
+        )
 
-    icon = "🟢"
+        icon = "🟢"
 
-elif score >= 70:
+    elif score >= 70:
 
-    recommendation = "Continue Monitoring"
+        recommendation = "Continue Monitoring"
 
-    condition = (
-        "Pipeline condition is satisfactory. "
-        "Some corrosion has been detected but remains within acceptable engineering limits."
-    )
+        condition = (
+            "Pipeline condition is satisfactory. "
+            "Some corrosion has been detected but remains within acceptable engineering limits."
+        )
 
-    action = (
-        "Continue operation and perform the next inspection according to API 570."
-    )
+        action = (
+            "Continue operation and perform the next inspection according to API 570."
+        )
 
-    icon = "🟡"
+        icon = "🟡"
 
-else:
+    elif score >= 50:
 
-    recommendation = "Immediate Maintenance Required"
+        recommendation = "Schedule Maintenance"
 
-    condition = (
-        "Pipeline integrity is significantly degraded. "
-        "The remaining life is limited and failure risk is elevated."
-    )
+        condition = (
+            "Pipeline condition has deteriorated. "
+            "Corrosion damage is becoming significant and requires planned maintenance."
+        )
 
-    action = (
-        "Schedule maintenance, repair, or replacement immediately. "
-        "Engineering evaluation is strongly recommended."
-    )
+        action = (
+            "Schedule inspection, repair, or preventive maintenance at the earliest opportunity "
+            "to prevent further deterioration."
+        )
 
-    icon = "🔴"
+        icon = "🟠"
 
-# Save recommendation information
-st.session_state["recommendation"] = recommendation
-st.session_state["condition"] = condition
-st.session_state["recommended_action"] = action
-st.session_state["priority"] = priority
-st.session_state["priority_icon"] = priority_icon
+    else:
+
+        recommendation = "Immediate Shutdown / Repair Recommended"
+
+        condition = (
+            "Pipeline integrity is critically degraded. "
+            "The remaining life is very limited and the risk of failure is high."
+        )
+
+        action = (
+            "Immediately stop operation if required by engineering assessment. "
+            "Perform detailed inspection and repair or replace the affected pipeline section "
+            "before returning it to service."
+        )
+
+        icon = "🔴"
+
+    # Save recommendation information
+    st.session_state["recommendation"] = recommendation
+    st.session_state["condition"] = condition
+    st.session_state["recommended_action"] = action
+    st.session_state["priority"] = priority
+    st.session_state["priority_icon"] = priority_icon
 
 
-with st.container(border=True):
+    with st.container(border=True):
 
-    st.markdown(f"### {priority_icon} Priority: **{priority}**")
+        st.markdown(f"### {priority_icon} Priority: **{priority}**")
+
+        st.divider()
+
+        st.markdown(f"### {icon} {recommendation}")
+
+        st.markdown("#### Maintenance Priority")
+        st.write(
+            f"This inspection has been classified as **{priority}** priority "
+            "based on the calculated health score."
+        )
+
+        st.markdown("#### ⚠ Risk Level")
+        st.write(f"**{risk}**")
+
+        st.markdown("#### Current Condition")
+        st.write(condition)
+
+        st.markdown("#### Recommended Action")
+        st.write(action)
+
+        st.markdown("#### Next Inspection")
+        st.write(next_date)
+
+        st.markdown("#### Remaining Life")
+        st.write(f"{life:.2f} Years")
+
+        st.caption(
+            "Recommendation generated automatically using "
+            "ASME B31.3 and API 570 engineering methodology."
+        )
 
     st.divider()
-
-    st.markdown(f"### {icon} {recommendation}")
-
-    st.markdown("#### Maintenance Priority")
-    st.write(
-        f"This inspection has been classified as **{priority}** priority "
-        "based on the calculated health score."
-    )
-
-    st.markdown("#### Current Condition")
-    st.write(condition)
-
-    st.markdown("#### Recommended Action")
-    st.write(action)
-
-    st.markdown("#### Next Inspection")
-    st.write(next_date)
-
-    st.markdown("#### Remaining Life")
-    st.write(f"{life:.2f} Years")
-
-    st.caption(
-        "Recommendation generated automatically using "
-        "ASME B31.3 and API 570 engineering methodology."
-    )
-
-st.divider()
 
 # ======================================================
 # Future Dashboard Components
