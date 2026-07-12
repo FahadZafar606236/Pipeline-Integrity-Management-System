@@ -1,5 +1,12 @@
 import streamlit as st
 import pandas as pd
+from src.gauges import (
+    health_gauge,
+    thickness_gauge,
+    corrosion_gauge,
+    remaining_life_gauge,
+    safety_factor_gauge,
+)
 from datetime import datetime
 
 st.set_page_config(
@@ -34,37 +41,6 @@ with col_info:
 
 st.divider()
 
-
-
-st.markdown("## 👋 Welcome to PIMS PRO")
-
-st.info(
-    """
-PIMS PRO is a professional Pipeline Integrity Management System developed to support
-inspection engineers, maintenance teams, and asset integrity professionals in monitoring
-pipeline condition and making informed engineering decisions.
-
-The application assists with corrosion assessment, remaining life prediction, risk
-classification, inspection management, and maintenance planning to improve safety,
-reliability, and operational efficiency.
-"""
-)
-
-st.divider()
-
-st.markdown("## 📖 Project Overview")
-
-st.write(
-    """
-PIMS PRO is an engineering application that supports pipeline integrity management by
-monitoring pipeline health, performing corrosion calculations, estimating remaining service
-life, managing inspection records, analyzing operational risk, and generating engineering
-reports. The system provides actionable insights to help engineers improve asset reliability,
-enhance safety, and support informed maintenance decisions.
-"""
-)
-
-st.divider()
 
 # ==========================================
 # KPI Cards (Placeholder Data)
@@ -115,176 +91,92 @@ with col6:
 
 st.divider()
 
+
+
+
+
+      
+
+
+
 # ==========================================
-# System Status
+# Engineering Gauges
 # ==========================================
 
-st.markdown("## 🟢 System Status")
+st.markdown("## ⚙️ Engineering Gauges")
 
-col1, col2, col3 = st.columns(3)
+col1, col2 = st.columns(2)
 
 with col1:
-    st.success("System Ready")
+    fig = health_gauge(92)
+    st.plotly_chart(fig, use_container_width=True)
 
 with col2:
-    st.success("Database Connected")
+    fig = thickness_gauge(
+        current_thickness=8.2,
+        minimum_thickness=6.5
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+col3, col4 = st.columns(2)
 
 with col3:
-    st.success("Inspection Module Available")
+    fig = corrosion_gauge(0.22)
 
-st.divider()
-
-# ==========================================
-# Key Features
-# ==========================================
-
-st.markdown("## 🚀 Key Features")
-
-col1, col2, col3, col4 = st.columns(4)
-
-with col1:
-    st.info("🛢️ Corrosion Loss\n\nCalculation")
-
-with col2:
-    st.info("⏳ Remaining Life\n\nPrediction")
-
-with col3:
-    st.info("💚 Health Score\n\nEvaluation")
+    st.plotly_chart(fig, use_container_width=True)
 
 with col4:
-    st.info("⚠️ Risk\n\nClassification")
+    fig = remaining_life_gauge(18.2)
 
-col5, col6, col7, col8 = st.columns(4)
+    st.plotly_chart(fig, use_container_width=True)
 
-with col5:
-    st.info("📋 Inspection\n\nHistory")
 
-with col6:
-    st.info("📊 Analytics\n\nDashboard")
-
-with col7:
-    st.info("📄 PDF Report\n\nGeneration")
-
-with col8:
-    st.info("💾 Data\n\nExport")
-
-col9 = st.columns(1)[0]
-
-with col9:
-    st.success("💡 Engineering Recommendation System")
 
 st.divider()
 
+st.markdown("## 🛡️ Engineering Safety Assessment")
+
+fig = safety_factor_gauge(2.15)
+
+st.plotly_chart(fig, use_container_width=True)
+st.divider()
+
 # ==========================================
-# Getting Started
+# Pipeline Integrity Summary
 # ==========================================
 
-st.markdown("## 🚀 Getting Started")
+st.markdown("## 📋 Pipeline Integrity Summary")
 
 col1, col2 = st.columns(2)
 
 with col1:
-    st.info("""
-### Step 1
-📝 Open **New Inspection**
-
-### Step 2
-🛢️ Enter pipeline details
-
-### Step 3
-🧮 Calculate corrosion assessment
-
-### Step 4
-💾 Save the inspection
-""")
-
-with col2:
-    st.info("""
-### Step 5
-📋 Review inspection history
-
-### Step 6
-📈 Analyze pipeline trends
-
-### Step 7
-📄 Generate engineering reports
-
-### Step 8
-💡 Review maintenance recommendations
-""")
-
-st.success(
-    "💡 Tip: Complete inspections regularly to maintain accurate "
-    "pipeline health records and improve maintenance planning."
-)
-
-st.divider()
-
-# ==========================================
-# Engineering Standards
-# ==========================================
-
-st.markdown("## 📚 Engineering Standards")
-
-col1, col2 = st.columns([1, 2])
-
-with col1:
-    st.info(
-        """
-### Standards
-
-• ASME B31.3
-
-• API 570
-"""
-    )
-
-with col2:
     st.success(
         """
-Engineering calculations and integrity assessment concepts used in
-PIMS PRO are inspired by widely recognized industry practices.
+### 🟢 Overall Pipeline Status
 
-This project is developed for educational and demonstration purposes
-and should not be considered a certified engineering design or
-inspection tool.
+## SAFE
+
+Pipeline integrity is within acceptable engineering limits.
 """
     )
-st.divider()        
-
-# ==========================================
-# Corrosion Trend (Placeholder)
-# ==========================================
-
-st.markdown("## 📈 Pipeline Corrosion Trend")
-
-with st.container():
-    st.write("")
-    st.info("Corrosion Trend Chart Placeholder")
-    st.write("")
-    st.write("This section will display the pipeline thickness trend over time.")
-    st.write("")
-    
-st.divider()
-
-# ==========================================
-# Remaining Thickness Gauge & Risk Matrix
-# ==========================================
-
-col1, col2 = st.columns(2)
-
-with col1:
-    st.markdown("## 🛢️ Remaining Thickness Assessment")
-    st.info("Gauge Placeholder")
-    st.write("This section will display the remaining wall thickness gauge.")
 
 with col2:
-    st.markdown("## 🚨 Pipeline Risk Assessment")
-    st.info("Risk Matrix Placeholder")
-    st.write("This section will display the pipeline risk matrix.")
+    st.info(
+        """
+### 💡 Engineering Decision
+
+**Continue Normal Operation**
+
+📅 Recommended Next Inspection
+
+24 Months
+"""
+    )  
+
+
 
 st.divider()
-
 # ==========================================
 # Engineering Recommendation (Placeholder)
 # ==========================================
@@ -314,6 +206,43 @@ Examples:
 
 st.divider()
 
+
+# ==========================================
+# Pipeline Risk Assessment
+# ==========================================
+
+st.markdown("## 🚨 Pipeline Risk Assessment")
+
+with st.container():
+    st.info("Risk Matrix Placeholder")
+
+    st.write(
+        """
+This section will display the pipeline risk matrix based on the
+calculated likelihood of failure and consequence of failure.
+
+The matrix helps engineers prioritize maintenance activities and
+identify high-risk pipeline segments requiring immediate attention.
+"""
+    )
+
+st.divider()
+
+# ==========================================
+# Corrosion Trend (Placeholder)
+# ==========================================
+
+st.markdown("## 📈 Pipeline Corrosion Trend")
+
+with st.container():
+    st.write("")
+    st.info("Corrosion Trend Chart Placeholder")
+    st.write("")
+    st.write("This section will display the pipeline thickness trend over time.")
+    st.write("")
+    
+st.divider()
+
 # ==========================================
 # Recent Inspection History (Placeholder)
 # ==========================================
@@ -334,6 +263,26 @@ st.dataframe(
     use_container_width=True,
     hide_index=True
 )
+
+st.divider()
+
+
+# ==========================================
+# System Status
+# ==========================================
+
+st.markdown("## 🟢 System Status")
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.success("System Ready")
+
+with col2:
+    st.success("Database Connected")
+
+with col3:
+    st.success("Inspection Module Available")
 
 st.divider()
 
