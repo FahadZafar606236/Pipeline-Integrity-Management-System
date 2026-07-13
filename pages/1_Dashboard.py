@@ -17,6 +17,18 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+if "Likelihood" not in st.session_state:
+    st.session_state["Likelihood"] = 0
+
+if "Consequence" not in st.session_state:
+    st.session_state["Consequence"] = 0
+
+if "Risk Score" not in st.session_state:
+    st.session_state["Risk Score"] = 0
+
+if "Risk Category" not in st.session_state:
+    st.session_state["Risk Category"] = "Not Calculated"
+
 
 
 col_logo, col_title, col_info = st.columns([1.2, 5, 1.8])

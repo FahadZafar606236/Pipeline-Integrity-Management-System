@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from src.pipeline_visualization import pipeline_visualization
 from src.charts import corrosion_trend_chart
 st.title("📈 Analytics")
 
@@ -175,3 +176,22 @@ st.plotly_chart(
     health_trend_chart(filtered),
     use_container_width=True
 )
+
+
+st.markdown("---")
+
+st.subheader("🛢️ Interactive Pipeline Visualization")
+
+
+if pipe != "All":
+
+    pipeline_visualization(
+        filtered,
+        pipe
+    )
+
+else:
+
+    st.info(
+        "Please select a pipeline from the sidebar to view visualization."
+    )
