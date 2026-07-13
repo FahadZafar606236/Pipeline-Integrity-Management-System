@@ -7,6 +7,7 @@ from src.gauges import (
     remaining_life_gauge,
     safety_factor_gauge,
 )
+from src.risk import risk_matrix_chart
 from datetime import datetime
 
 st.set_page_config(
@@ -177,34 +178,6 @@ with col2:
 
 
 st.divider()
-# ==========================================
-# Engineering Recommendation (Placeholder)
-# ==========================================
-
-st.markdown("## 💡 Engineering Recommendation")
-
-with st.container():
-    st.success("""
-**Recommendation Placeholder**
-
-Engineering recommendations will appear here based on
-pipeline health, corrosion rate, remaining life,
-and risk assessment.
-
-Examples:
-
-• Continue normal operation
-
-• Schedule next inspection
-
-• Reduce operating pressure
-
-• Repair damaged section
-
-• Replace pipeline segment
-""")
-
-st.divider()
 
 
 # ==========================================
@@ -214,20 +187,52 @@ st.divider()
 st.markdown("## 🚨 Pipeline Risk Assessment")
 
 with st.container():
-    st.info("Risk Matrix Placeholder")
 
-    st.write(
-        """
-This section will display the pipeline risk matrix based on the
-calculated likelihood of failure and consequence of failure.
+    if "Likelihood" in st.session_state and "Consequence" in st.session_state:
 
-The matrix helps engineers prioritize maintenance activities and
-identify high-risk pipeline segments requiring immediate attention.
-"""
-    )
+        likelihood = st.session_state["Likelihood"]
+        consequence = st.session_state["Consequence"]
+
+        fig = risk_matrix_chart(likelihood, consequence)
+        st.plotly_chart(fig, use_container_width=True)
+
+    else:
+        st.info("Run a pipeline inspection first to display the Risk Matrix.")
+
 
 st.divider()
 
+st.markdown("### 📋 Risk Summary")
+
+col1, col2, col3, col4 = st.columns(4)
+
+with col1:
+    st.metric("Likelihood", st.session_state["Likelihood"])
+
+with col2:
+    st.metric("Consequence", st.session_state["Consequence"])
+
+with col3:
+    st.metric("Risk Score", st.session_state["Risk Score"])
+
+with col4:
+    st.metric("Category", st.session_state["Risk Category"])
+
+category = st.session_state["Risk Category"]
+
+if category == "Low":
+    st.success("🟢 LOW")
+
+elif category == "Medium":
+    st.warning("🟡 MEDIUM")
+
+elif category == "High":
+    st.warning("🟠 HIGH")
+
+elif category == "Extreme":
+    st.error("🔴 EXTREME")    
+
+st.divider()
 # ==========================================
 # Corrosion Trend (Placeholder)
 # ==========================================

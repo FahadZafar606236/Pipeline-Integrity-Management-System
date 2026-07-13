@@ -60,6 +60,7 @@ from src.calculations import (
     estimated_failure_year,
     risk_level,
 )
+from src.risk import pipeline_risk
 st.title("📝 New Pipeline Inspection")
 
 st.caption(
@@ -328,6 +329,11 @@ if calculate:
                 )
 
                 risk = risk_level(score)
+
+                risk_result = pipeline_risk(
+                    corrosion_rate=corrosion,
+                    fluid=fluid
+                )
                 # Calculate next inspection date
                 next_date = next_inspection_date(
                     inspection_date,
@@ -369,6 +375,11 @@ if calculate:
                 st.session_state["corrosion_allowance"] = allowance
                 st.session_state["estimated_failure_year"] = failure_year
                 st.session_state["risk_level"] = risk
+                st.session_state["Likelihood"] = risk_result["Likelihood"]
+                st.session_state["Consequence"] = risk_result["Consequence"]
+                st.session_state["Risk Score"] = risk_result["Risk Score"]
+                st.session_state["Risk Category"] = risk_result["Risk Category"]
+                st.session_state["Risk Recommendation"] = risk_result["Recommendation"]
 
                 
 
