@@ -54,7 +54,46 @@ with col_info:
 
 st.divider()
 
+import os
 
+filename = "data/inspection_history.csv"
+
+if os.path.exists(filename):
+    history_df = pd.read_csv(filename)
+else:
+    history_df = pd.DataFrame()
+
+if not history_df.empty:
+
+    total_pipelines = history_df["Pipe ID"].nunique()
+
+    total_inspections = len(history_df)
+
+    average_health = history_df["Health Score"].mean()
+
+    safe_pipelines = len(
+        history_df[history_df["Health Score"] >= 90]
+    )
+
+    warning_pipelines = len(
+        history_df[
+            (history_df["Health Score"] >= 70) &
+            (history_df["Health Score"] < 90)
+        ]
+    )
+
+    critical_pipelines = len(
+        history_df[history_df["Health Score"] < 70]
+    )
+
+else:
+
+    total_pipelines = 0
+    total_inspections = 0
+    average_health = 0
+    safe_pipelines = 0
+    warning_pipelines = 0
+    critical_pipelines = 0    
 # ==========================================
 # KPI Cards (Placeholder Data)
 # ==========================================
@@ -66,19 +105,19 @@ col1, col2, col3 = st.columns(3)
 with col1:
     st.metric(
         label="🛢️ Total Pipelines",
-        value="24"
+        value=total_pipelines
     )
 
 with col2:
     st.metric(
         label="📋 Total Inspections",
-        value="156"
+        value=total_inspections
     )
 
 with col3:
     st.metric(
         label="🟢 Safe Pipelines",
-        value="18"
+        value=safe_pipelines
     )
 
 col4, col5, col6 = st.columns(3)
@@ -86,19 +125,19 @@ col4, col5, col6 = st.columns(3)
 with col4:
     st.metric(
         label="🟡 Warning Pipelines",
-        value="4"
+        value=warning_pipelines
     )
 
 with col5:
     st.metric(
         label="🔴 Critical Pipelines",
-        value="2"
+        value=critical_pipelines
     )
 
 with col6:
     st.metric(
         label="📈 Average Health Score",
-        value="91%"
+        value=f"{average_health:.1f}%"
     )
 
 
@@ -111,7 +150,10 @@ st.divider()
       
 
 
-
+# Latest inspection
+if not history_df.empty:
+   history_df["Inspection Date"] = pd.to_datetime(history_df["Inspection Date"])
+   latest = history_df.sort_values("Inspection Date").iloc[-1]
 # ==========================================
 # Engineering Gauges
 # ==========================================
@@ -121,13 +163,13 @@ st.markdown("## ⚙️ Engineering Gauges")
 col1, col2 = st.columns(2)
 
 with col1:
-    fig = health_gauge(92)
+    fig = health_gauge(latest["Health Score"])
     st.plotly_chart(fig, use_container_width=True)
 
 with col2:
     fig = thickness_gauge(
-        current_thickness=8.2,
-        minimum_thickness=6.5
+        current_thickness=latest["Current Thickness (mm)"],
+        minimum_thickness=latest["Minimum Required Thickness"]
     )
 
     st.plotly_chart(fig, use_container_width=True)
@@ -135,12 +177,16 @@ with col2:
 col3, col4 = st.columns(2)
 
 with col3:
-    fig = corrosion_gauge(0.22)
+    fig = corrosion_gauge(
+        latest["Corrosion Rate"]
+    )
 
     st.plotly_chart(fig, use_container_width=True)
 
 with col4:
-    fig = remaining_life_gauge(18.2)
+    fig = remaining_life_gauge(
+        latest["Remaining Life"]
+    )
 
     st.plotly_chart(fig, use_container_width=True)
 
@@ -150,8 +196,9 @@ st.divider()
 
 st.markdown("## 🛡️ Engineering Safety Assessment")
 
-fig = safety_factor_gauge(2.15)
-
+fig = safety_factor_gauge(
+    latest["Safety Factor"]
+)
 st.plotly_chart(fig, use_container_width=True)
 st.divider()
 
@@ -164,28 +211,58 @@ st.markdown("## 📋 Pipeline Integrity Summary")
 col1, col2 = st.columns(2)
 
 with col1:
-    st.success(
-        """
+    priority = latest["Priority"]
+
+    if priority == "LOW":
+
+        st.success("""
 ### 🟢 Overall Pipeline Status
 
 ## SAFE
 
 Pipeline integrity is within acceptable engineering limits.
-"""
-    )
+""")
+
+    elif priority == "MEDIUM":
+
+        st.warning("""
+### 🟡 Overall Pipeline Status
+
+## WARNING
+
+Pipeline requires increased monitoring.
+""")
+
+    elif priority == "HIGH":
+
+        st.warning("""
+### 🟠 Overall Pipeline Status
+
+## HIGH RISK
+
+Maintenance should be scheduled.
+""")
+
+    else:
+
+        st.error("""
+### 🔴 Overall Pipeline Status
+
+## CRITICAL
+
+Immediate engineering action is required.
+""")
 
 with col2:
-    st.info(
-        """
+    st.info(f"""
 ### 💡 Engineering Decision
 
-**Continue Normal Operation**
+**{latest["Recommendation"]}**
 
 📅 Recommended Next Inspection
 
-24 Months
-"""
-    )  
+{latest["Next Inspection"]}
+""")
 
 
 
@@ -245,41 +322,41 @@ elif category == "Extreme":
     st.error("🔴 EXTREME")    
 
 st.divider()
-# ==========================================
-# Corrosion Trend (Placeholder)
-# ==========================================
 
-st.markdown("## 📈 Pipeline Corrosion Trend")
-
-with st.container():
-    st.write("")
-    st.info("Corrosion Trend Chart Placeholder")
-    st.write("")
-    st.write("This section will display the pipeline thickness trend over time.")
-    st.write("")
-    
-st.divider()
-
-# ==========================================
-# Recent Inspection History (Placeholder)
-# ==========================================
-
-
+import os
 
 st.markdown("## 📋 Recent Inspection History")
 
-placeholder_df = pd.DataFrame({
-    "Pipeline ID": ["PL-001", "PL-002", "PL-003"],
-    "Inspection Date": ["08-Jul-2026", "01-Jul-2026", "25-Jun-2026"],
-    "Health Score": ["92%", "88%", "95%"],
-    "Risk Level": ["Moderate", "Low", "Low"]
-})
+filename = "data/inspection_history.csv"
 
-st.dataframe(
-    placeholder_df,
-    use_container_width=True,
-    hide_index=True
-)
+if os.path.exists(filename):
+
+    history_df = pd.read_csv(filename)
+
+    # Show newest inspections first
+    history_df = history_df.iloc[::-1]
+
+    # Show only latest 5 inspections
+    history_df = history_df.head(5)
+
+    display_df = history_df[
+        [
+            "Pipe ID",
+            "Inspection Date",
+            "Health Score",
+            "Risk Category"
+        ]
+    ]
+
+    st.dataframe(
+        display_df,
+        use_container_width=True,
+        hide_index=True
+    )
+
+else:
+
+    st.info("No inspections have been saved yet.")
 
 st.divider()
 
@@ -329,3 +406,4 @@ with col2:
         """,
         unsafe_allow_html=True
     )
+

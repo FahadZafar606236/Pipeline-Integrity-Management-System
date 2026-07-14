@@ -1,33 +1,6 @@
-Pipe ID,Inspection Date,Inspector,Material,Fluid,Outside Diameter (mm),Initial Thickness (mm),Current Thickness (mm),Operating Pressure (MPa),Corrosion Rate (mm/year),Remaining Life (years),Health Score,Risk Category,Recommendation,Minimum Required Thickness (mm)
-PL-006,2023-07-07,Ali,Carbon Steel,Crude Oil,508,12.0,10.8,5.0,0.2,3,86,Moderate,Monitor,1.53
-PL-001,2021-07-07,Ali,Carbon Steel,Crude Oil,508,12.0,10.8,5.0,0.2,18,86,Moderate,Monitor,1.76
-PL-006,2022-07-07,Ali,Carbon Steel,Crude Oil,508,12.0,10.8,5.0,0.2,18,86,Moderate,Monitor,1.23
-PL-002,2026-07-08,Ahmed Raza,Stainless Steel,Natural Gas,406,10.0,9.5,4.2,0.1,25,93,Low,Continue Monitoring,1.34
-PL-003,2009-07-10,Sara Malik,Carbon Steel,Diesel,610,14.0,11.9,6.5,0.3,12,74,High,Repair,1.56
-PL-004,2014-07-12,Ali,Alloy Steel,Water,355,8.0,7.6,2.5,0.05,30,97,Low,Routine Inspection,0.67
-PL-006,2026-07-15,Fatima Noor,Carbon Steel,Petrol,457,11.0,9.2,5.8,0.25,15,80,Moderate,Monitor Closely,1.42
-PL-001,2025-07-07,Khan,Carbon Steel,Crude Oil,508,12.0,10.8,5.0,0.2,18,86,Moderate,Monitor,1.53
-PL-002,2000-07-08,Ahmed Raza,Stainless Steel,Natural Gas,406,10.0,9.5,4.2,0.1,25,2,Low,Continue Monitoring,1.34
-PL-006,2001-07-10,Sara Malik,Carbon Steel,Diesel,610,14.0,11.9,6.5,0.3,12,74,High,Repair,1.56
-PL-004,2005-07-12,Ali,Alloy Steel,Water,355,8.0,7.6,2.5,0.05,30,97,Low,Routine Inspection,0.67
-PL-005,2024-07-15,Fatima Noor,Carbon Steel,Petrol,457,11.0,9.2,5.8,0.25,15,80,Moderate,Monitor Closely,1.42
-PL-001,2027-01-15,Khan,Carbon Steel,Crude Oil,508,12.0,10.5,5.0,0.22,16,82,Moderate,Monitor Closely,1.53
-PL-001,2020-07-07,Khan,Carbon Steel,Crude Oil,508,12.0,10.8,5.0,0.2,18,86,Moderate,Monitor,1.53
-PL-002,2026-07-08,Ahmed Raza,Stainless Steel,Natural Gas,406,10.0,9.5,4.2,0.1,25,93,Low,Continue Monitoring,1.34
-PL-003,2026-07-10,Sara Malik,Carbon Steel,Diesel,610,14.0,11.9,6.5,0.3,12,74,High,Repair,1.56
-PL-004,2016-07-12,Ali,Alloy Steel,Water,355,8.0,7.6,2.5,0.05,30,97,Low,Routine Inspection,0.67
-PL-005,2016-07-15,Fatima Noor,Carbon Steel,Petrol,457,11.0,9.2,5.8,0.25,15,80,Moderate,Monitor Closely,1.42
-PL-001,2007-01-15,Ali,Carbon Steel,Crude Oil,508,12.0,10.5,5.0,0.22,16,82,Moderate,Monitor Closely,1.53
-PL-001,2026-07-07,Ali,Carbon Steel,Crude Oil,508,12.0,10.8,5.0,0.2,18,86,Moderate,Monitor,1.53
-PL-002,2010-07-08,Ahmed Raza,Stainless Steel,Natural Gas,406,10.0,9.5,4.2,0.1,25,93,Low,Continue Monitoring,1.34
-PL-003,2021-07-10,Sara Malik,Carbon Steel,Diesel,610,14.0,11.9,6.5,0.3,12,74,High,Repair,1.56
-PL-004,2024-07-12,Ali,Alloy Steel,Water,355,8.0,7.6,2.5,0.05,30,97,Low,Routine Inspection,0.67
-PL-005,2001-07-15,Fatima Noor,Carbon Steel,Petrol,457,11.0,9.2,5.8,0.25,15,80,Moderate,Monitor Closely,1.42
-PL-001,2001-01-15,Ali,Carbon Steel,Crude Oil,508,12.0,10.5,5.0,0.22,16,82,Moderate,Monitor Closely,1.53
-PL-001,2020-07-07,Ali,Carbon Steel,Crude Oil,508,12.0,10.8,5.0,0.2,18,86,Moderate,Monitor,1.53
-PL-002,2021-07-08,Ahmed Raza,Stainless Steel,Natural Gas,406,10.0,9.5,4.2,0.1,25,93,Low,Continue Monitoring,1.34
-PL-003,2022-07-10,Sara Malik,Carbon Steel,Diesel,610,14.0,11.9,6.5,0.3,12,74,High,Repair,1.56
-PL-004,2027-07-12,Ali,Alloy Steel,Water,355,8.0,7.6,2.5,0.05,30,97,Low,Routine Inspection,0.67
-PL-005,2020-07-15,Fatima Noor,Carbon Steel,Petrol,457,11.0,9.2,5.8,0.25,15,80,Moderate,Monitor Closely,1.42
-PL-001,2015-01-15,Khan,Carbon Steel,Crude Oil,508,12.0,10.5,5.0,0.22,16,82,Moderate,Monitor Closely,1.53
-PL-006,2026-08-01,Test Engineer,Carbon Steel,Crude Oil,508,12.0,11.5,5.5,0.15,20,90,Low,Routine Inspection,1.48
+Pipe ID,Material,Fluid,Outside Diameter (mm),Initial Thickness (mm),Current Thickness (mm),Operating Pressure (MPa),Allowable Stress (MPa),Inspection Date,Inspector,Corrosion Rate,Minimum Required Thickness,Remaining Life,Corrosion Loss %,Safety Factor,Health Score,Risk Level,Likelihood,Consequence,Risk Score,Risk Category,Recommendation,Priority,Next Inspection,Estimated Failure Year
+PL-002,Duplex Steel,Chemical,167.0,23.0,21.0,9.0,139.0,2026-07-14,hyt,0.6666666666666666,5.269985974754558,23.595021037868165,8.7,3.98,76,Moderate,4,3,12,High,Continue Monitoring,MEDIUM,2038-04-28,2050
+PL-006,Carbon Steel,Crude Oil,135.0,12.0,10.0,3.9,290.0,2026-07-14,Ali,0.2,0.902901632597064,45.48549183701468,16.67,11.08,91,Low,2,4,8,Medium,Continue Normal Operation,LOW,2049-04-05,2071
+PL-001,Carbon Steel,Crude Oil,508.0,12.0,11.8,5.5,138.0,2026-07-14,Muhammad Fahad,0.02499999999999991,9.964336661911556,73.42653352353804,1.67,1.18,88,Moderate,1,4,4,Low,Continue Monitoring,MEDIUM,2063-03-22,2099
+PL-002,Stainless Steel,Diesel,406.0,10.0,8.9,4.2,140.0,2026-07-14,Ali Raza,0.09166666666666663,6.017786561264822,31.44232842256559,11.0,1.48,88,Moderate,1,4,4,Low,Continue Monitoring,MEDIUM,2042-03-30,2057
+PL--005,Duplex Steel,Natural Gas,234.0,16.0,15.1,8.0,145.0,2026-07-14,Hammad,0.09000000000000004,6.315789473684211,97.60233918128651,5.63,2.39,100,Low,1,3,3,Low,Continue Normal Operation,LOW,2075-04-20,2124

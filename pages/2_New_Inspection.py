@@ -1,5 +1,33 @@
 import streamlit as st
-
+import pandas as pd
+import os
+CSV_COLUMNS = [
+    "Pipe ID",
+    "Material",
+    "Fluid",
+    "Outside Diameter (mm)",
+    "Initial Thickness (mm)",
+    "Current Thickness (mm)",
+    "Operating Pressure (MPa)",
+    "Allowable Stress (MPa)",
+    "Inspection Date",
+    "Inspector",
+    "Corrosion Rate",
+    "Minimum Required Thickness",
+    "Remaining Life",
+    "Corrosion Loss %",
+    "Safety Factor",
+    "Health Score",
+    "Risk Level",
+    "Likelihood",
+    "Consequence",
+    "Risk Score",
+    "Risk Category",
+    "Recommendation",
+    "Priority",
+    "Next Inspection",
+    "Estimated Failure Year"
+]
 st.markdown("""
 <style>
 
@@ -229,11 +257,9 @@ with col2:
     )
 
 with col3:
-    st.button(
+    save = st.button(
         "💾 Save Inspection",
-        disabled=True,
-        use_container_width=True,
-        help="This feature will be enabled in a later phase."
+        use_container_width=True
     )
 
 with col4:
@@ -632,26 +658,58 @@ if st.session_state.get("health_score") is not None:
 
     st.divider()
 
-# ======================================================
-# Future Dashboard Components
-# ======================================================
+if save:
 
-st.markdown("## 📈 Future Engineering Dashboard")
+    if st.session_state.get("health_score") is None:
+        st.error("Please calculate the inspection before saving.")
 
-col1, col2 = st.columns(2)
+    else:
 
-with col1:
-    st.info("📉 Corrosion Trend Chart\n\n(Coming in Phase 12)")
+        record = {
+            "Pipe ID": st.session_state["pipe_id"],
+            "Material": material,
+            "Fluid": fluid,
+            "Outside Diameter (mm)": outside_diameter,
+            "Initial Thickness (mm)": initial_thickness,
+            "Current Thickness (mm)": current_thickness,
+            "Operating Pressure (MPa)": operating_pressure,
+            "Allowable Stress (MPa)": allowable_stress,
+            "Inspection Date": inspection_date,
+            "Inspector": inspector,
+            "Corrosion Rate": st.session_state["corrosion_rate"],
+            "Minimum Required Thickness": st.session_state["minimum_required_thickness"],
+            "Remaining Life": st.session_state["remaining_life"],
+            "Corrosion Loss %": st.session_state["corrosion_loss"],
+            "Safety Factor": st.session_state["safety_factor"],
+            "Health Score": st.session_state["health_score"],
+            "Risk Level": st.session_state["risk_level"],
+            "Likelihood": st.session_state["Likelihood"],
+            "Consequence": st.session_state["Consequence"],
+            "Risk Score": st.session_state["Risk Score"],
+            "Risk Category": st.session_state["Risk Category"],
+            "Recommendation": st.session_state["recommendation"],
+            "Priority": st.session_state["priority"],
+            "Next Inspection": st.session_state["next_inspection_date"],
+            "Estimated Failure Year": st.session_state["estimated_failure_year"],
+        }
 
-with col2:
-    st.info("🧭 Remaining Thickness Gauge\n\n(Coming in Phase 12)")
+        df = pd.DataFrame([record], columns=CSV_COLUMNS)
 
-col3, col4 = st.columns(2)
+        os.makedirs("data", exist_ok=True)
 
-with col3:
-    st.info("⚠ Risk Matrix\n\n(Coming in Phase 13)")
+        filename = "data/inspection_history.csv"
 
-with col4:
-    st.info("📋 Recommendation Panel\n\n(Coming in Phase 13)")
+        if os.path.exists(filename):
+            df.to_csv(
+                filename,
+                mode="a",
+                header=False,
+                index=False
+            )
+        else:
+            df.to_csv(
+                filename,
+                index=False
+            )
 
-st.divider()
+        st.success("✅ Inspection saved successfully.")
