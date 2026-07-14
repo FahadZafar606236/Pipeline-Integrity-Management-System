@@ -275,19 +275,17 @@ st.divider()
 
 st.markdown("## 🚨 Pipeline Risk Assessment")
 
-with st.container():
+if not history_df.empty:
 
-    if "Likelihood" in st.session_state and "Consequence" in st.session_state:
+    fig = risk_matrix_chart(
+        latest["Likelihood"],
+        latest["Consequence"]
+    )
 
-        likelihood = st.session_state["Likelihood"]
-        consequence = st.session_state["Consequence"]
+    st.plotly_chart(fig, use_container_width=True)
 
-        fig = risk_matrix_chart(likelihood, consequence)
-        st.plotly_chart(fig, use_container_width=True)
-
-    else:
-        st.info("Run a pipeline inspection first to display the Risk Matrix.")
-
+else:
+    st.info("Run a pipeline inspection first.")
 
 st.divider()
 
@@ -296,18 +294,18 @@ st.markdown("### 📋 Risk Summary")
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.metric("Likelihood", st.session_state["Likelihood"])
+    st.metric("Likelihood", latest["Likelihood"])
 
 with col2:
-    st.metric("Consequence", st.session_state["Consequence"])
+    st.metric("Consequence", latest["Consequence"])
 
 with col3:
-    st.metric("Risk Score", st.session_state["Risk Score"])
+    st.metric("Risk Score", latest["Risk Score"])
 
 with col4:
-    st.metric("Category", st.session_state["Risk Category"])
+    st.metric("Category", latest["Risk Category"])
 
-category = st.session_state["Risk Category"]
+category = latest["Risk Category"]
 
 if category == "Low":
     st.success("🟢 LOW")
