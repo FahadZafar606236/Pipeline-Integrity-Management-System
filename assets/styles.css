@@ -1,72 +1,145 @@
 /* =====================================================
-   PIMS PRO Color Theme
-
-   Primary    : #0B3D91
-   Secondary  : #3A506B
-   Success    : #2ECC71
-   Warning    : #F39C12
-   Critical   : #E74C3C
-   Accent     : #00A8E8
-   Background : #F4F6F9
-===================================================== */
-
-
-
-/* =====================================================
    PIMS PRO - Global Theme
    Pipeline Integrity Management System
-====================================================== */
+===================================================== */
 
+/* -------------------------
+   Main App
+--------------------------*/
 /* -------------------------
    Main Application
 --------------------------*/
+
+/* ===========================
+   Page Fade Animation
+=========================== */
+
+@keyframes pageFade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.block-container {
+    animation: pageFade 0.6s ease-out;
+}
 .stApp {
-    .stApp {
-    background-color: #F4F6F9;
+    background: #0c0c0c;      /* Dark Grey */
+    color: #F5F5F5;
     font-family: "Segoe UI", sans-serif;
 }
+
+/* -------------------------
+   Fade Animation
+--------------------------*/
+
+
+
 
 /* -------------------------
    Sidebar
 --------------------------*/
 [data-testid="stSidebar"] {
-    background-color: #0B3D91;
+    background: #0B3D91;
     color: white;
+    transition: all 0.3s ease;
 }
 
 [data-testid="stSidebar"] * {
     color: white;
 }
 
-[data-testid="stSidebar"] hr {
-    border-color: rgba(255,255,255,0.2);
+[data-testid="stSidebar"]:hover {
+    box-shadow: 3px 0 15px rgba(0,0,0,0.2);
+}
+/* =====================================================
+   HERO SECTION
+===================================================== */
+
+.hero-container{
+    background: linear-gradient(135deg,#10243B,#173B5E,#0F2740);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:22px;
+    padding:55px 40px;
+    text-align:center;
+    margin-bottom:35px;
+    box-shadow:0 15px 35px rgba(0,0,0,.45);
 }
 
+.hero-logo{
+    width:95px;
+    height:95px;
+    margin:auto;
+    border-radius:50%;
+    background:linear-gradient(135deg,#00C6FF,#0072FF);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:46px;
+    color:white;
+    margin-bottom:25px;
+    box-shadow:0 0 20px rgba(0,198,255,.4);
+}
+
+.hero-title{
+    font-size:54px;
+    font-weight:800;
+    color:white;
+    letter-spacing:2px;
+}
+
+.pro-text{
+    color:#00C6FF;
+}
+
+.hero-subtitle{
+    font-size:24px;
+    color:#CFE8FF;
+    margin-top:12px;
+}
+
+.hero-description{
+    max-width:900px;
+    margin:28px auto;
+    font-size:18px;
+    line-height:1.9;
+    color:#D8E3EC;
+}
+
+.hero-version{
+    display:inline-block;
+    padding:10px 26px;
+    border-radius:50px;
+    background:#00B050;
+    color:white;
+    font-weight:700;
+    margin-top:18px;
+}
 /* -------------------------
    Headings
 --------------------------*/
 h1 {
-   color: #FFFFFF;
+    color:#FFFFFF;
     font-size: 2.2rem;
     font-weight: 700;
 }
 
-h2 {
-     color: #E8EAF0;
-    font-weight: 600;
-}
-
+h2,
 h3 {
-    color: #E8EAF0;
+     color:#E5E7EB;
 }
 
 /* -------------------------
-   Paragraph Text
+   Paragraphs
 --------------------------*/
 p {
-    p {
-    color: #D1D5DB;
-}
+    color:#D1D5DB;
     font-size: 15px;
 }
 
@@ -74,126 +147,240 @@ p {
    Buttons
 --------------------------*/
 .stButton > button {
-
     width: 100%;
-
-   background-color: #0B3D91;
-
+    background: #0B3D91;
     color: white;
-
+    border-radius: 10px;
     border: none;
-
-    border-radius: 8px;
-
     padding: 12px;
-
-    font-size: 15px;
-
-    font-weight: bold;
-
-    transition: 0.3s;
+    font-weight: 600;
+    transition: all .3s ease;
 }
 
 .stButton > button:hover {
-
-    background-color: #082F6A;
-    transform: scale(1.02);
-
-    cursor: pointer;
+    background: #082F6A;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(11,61,145,.3);
 }
 
 /* -------------------------
-   Text Inputs
+   Inputs
 --------------------------*/
 .stTextInput input,
 .stNumberInput input,
 textarea {
-
     border-radius: 8px;
-
     border: 1px solid #C7CED6;
+}
+
+input:focus,
+textarea:focus {
+    border: 2px solid #00A8E8 !important;
+    box-shadow: 0 0 10px rgba(0,168,232,.3);
 }
 
 /* -------------------------
    Select Boxes
 --------------------------*/
 .stSelectbox div[data-baseweb="select"] {
-
     border-radius: 8px;
 }
 
 /* -------------------------
-   Metric Cards
+   KPI Cards
 --------------------------*/
 [data-testid="metric-container"] {
-
     background: white;
-
     border-left: 6px solid #0B3D91;
-
     border-radius: 12px;
-
     padding: 18px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+    transition: all .35s ease;
+}
 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+[data-testid="metric-container"]:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0,168,232,.25);
 }
 
 /* -------------------------
-   DataFrames & Tables
+   Tables
 --------------------------*/
 thead tr th {
-
-    background-color: #0B3C5D !important;
-
+    background: #0B3D91 !important;
     color: white !important;
 }
 
-tbody tr:nth-child(even){
+tbody tr:nth-child(even) {
+    background: #EEF3F8;
+}
 
-    background:#EEF3F8;
+tbody tr {
+    transition: all .2s ease;
+}
+
+tbody tr:hover {
+    background: #D9ECFF !important;
 }
 
 /* -------------------------
    Expanders
 --------------------------*/
 .streamlit-expanderHeader {
-
     font-weight: bold;
-
-    color:#0B3C5D;
+    color: #0B3D91;
 }
 
 /* -------------------------
-   Success Messages
+   Alerts
 --------------------------*/
 .stSuccess {
     border-left: 5px solid #2ECC71;
 }
 
-/* -------------------------
-   Warning Messages
---------------------------*/
 .stWarning {
     border-left: 5px solid #F39C12;
 }
 
-
-/* -------------------------
-   Error Messages
---------------------------*/
 .stError {
     border-left: 5px solid #E74C3C;
+}
+
+/* -------------------------
+   Risk Badge Animation
+--------------------------*/
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+.risk-critical {
+    animation: pulse 1.5s infinite;
 }
 
 /* -------------------------
    Hide Streamlit Branding
 --------------------------*/
 #MainMenu {
-
-    visibility:hidden;
+    visibility: hidden;
 }
 
 footer {
+    visibility: hidden;
+}
 
-    visibility:hidden;
+/* ==========================================
+   WORKFLOW SECTION
+========================================== */
+
+.workflow-card{
+    background:#2A2F3A;
+    border-radius:15px;
+    padding:18px;
+    text-align:center;
+    border:1px solid rgba(255,255,255,.08);
+    transition:.3s;
+    min-height:130px;
+}
+
+.workflow-card:hover{
+    transform:translateY(-5px);
+    border-color:#00B4D8;
+    box-shadow:0 10px 25px rgba(0,180,216,.2);
+}
+
+.workflow-icon{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+.workflow-title{
+    color:white;
+    font-weight:600;
+    font-size:17px;
+    line-height:1.4;
+}
+
+
+/* ==========================================
+   TECHNOLOGY SECTION
+========================================== */
+
+.tech-card{
+    background:#2A2F3A;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:15px;
+    padding:22px;
+    margin-bottom:20px;
+    text-align:center;
+    transition:.3s;
+    box-shadow:0 8px 20px rgba(0,0,0,.2);
+}
+
+.tech-card:hover{
+    transform:translateY(-5px);
+    border-color:#00B4D8;
+    box-shadow:0 12px 30px rgba(0,180,216,.2);
+}
+
+.tech-icon{
+    font-size:42px;
+    margin-bottom:12px;
+}
+
+.tech-name{
+    color:white;
+    font-size:18px;
+    font-weight:600;
+}
+
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+.footer{
+    margin-top:60px;
+    padding:35px;
+    text-align:center;
+    background:#111827;
+    border-radius:18px;
+    border-top:3px solid #00B4D8;
+    color:#D1D5DB;
+}
+
+.footer h3{
+    color:white;
+    font-size:30px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.footer p{
+    color:#BFC9D4;
+    margin:8px 0;
+}
+
+.footer-info{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+    margin:20px 0;
+    color:white;
+    font-weight:600;
+}
+
+.footer hr{
+    border:none;
+    height:1px;
+    background:#374151;
+    margin:25px 0;
+}
+
+.copyright{
+    color:#9CA3AF;
+    font-size:14px;
 }

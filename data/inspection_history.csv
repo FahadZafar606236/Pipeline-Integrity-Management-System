@@ -45,3 +45,5 @@ PL-005,Duplex Steel,Natural Gas,234,16,15.50,8.0,145,2022-07-14,Hammad,0.060,6.3
 
 PL-006,PVC,Steam,125,80,78.50,2.0,12,2021-07-14,Faheem,0.500,9.766,137.47,1.88,8.04,95,Moderate,3,2,6,Medium,Continue Monitoring,MEDIUM,2090-07-14,2158
 PL-006,PVC,Steam,125,80,77.00,2.0,12,2022-07-14,Faheem,0.700,9.766,96.05,3.75,7.89,90,Moderate,4,2,8,Medium,Increase Inspection Frequency,HIGH,2074-07-14,2122
+PL-002,Stainless Steel,Diesel,789.0,123.0,78.0,45.0,129.0,2026-07-14,Fahad,1.8,117.17821782178218,0.0,36.59,0.67,24,Critical,5,4,20,Extreme,Immediate Shutdown / Repair Recommended,URGENT,2026-07-14,2026
+PL-003,Carbon Steel,Crude Oil,0.0,0.0,0.0,0.0,0.0,2026-07-14,,2.7777777777777777,197.14502273875695,0.0,37.5,0.63,24,Critical,5,4,20,Extreme,Immediate Shutdown / Repair Recommended,URGENT,2026-07-14,2026

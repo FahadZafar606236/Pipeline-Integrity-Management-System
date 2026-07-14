@@ -1,4 +1,11 @@
 import streamlit as st
+
+
+def load_css():
+    with open("assets/styles.css") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+load_css()
 import pandas as pd
 from src.gauges import (
     health_gauge,
