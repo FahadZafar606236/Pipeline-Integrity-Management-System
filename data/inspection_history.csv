@@ -3,5 +3,45 @@ PL-002,Duplex Steel,Chemical,167.0,23.0,21.0,9.0,139.0,2026-07-14,hyt,0.66666666
 PL-006,Carbon Steel,Crude Oil,135.0,12.0,10.0,3.9,290.0,2026-07-14,Ali,0.2,0.902901632597064,45.48549183701468,16.67,11.08,91,Low,2,4,8,Medium,Continue Normal Operation,LOW,2049-04-05,2071
 PL-001,Carbon Steel,Crude Oil,508.0,12.0,11.8,5.5,138.0,2026-07-14,Muhammad Fahad,0.02499999999999991,9.964336661911556,73.42653352353804,1.67,1.18,88,Moderate,1,4,4,Low,Continue Monitoring,MEDIUM,2063-03-22,2099
 PL-002,Stainless Steel,Diesel,406.0,10.0,8.9,4.2,140.0,2026-07-14,Ali Raza,0.09166666666666663,6.017786561264822,31.44232842256559,11.0,1.48,88,Moderate,1,4,4,Low,Continue Monitoring,MEDIUM,2042-03-30,2057
-PL--005,Duplex Steel,Natural Gas,234.0,16.0,15.1,8.0,145.0,2026-07-14,Hammad,0.09000000000000004,6.315789473684211,97.60233918128651,5.63,2.39,100,Low,1,3,3,Low,Continue Normal Operation,LOW,2075-04-20,2124
+PL-005,Duplex Steel,Natural Gas,234.0,16.0,15.1,8.0,145.0,2026-07-14,Hammad,0.09000000000000004,6.315789473684211,97.60233918128651,5.63,2.39,100,Low,1,3,3,Low,Continue Normal Operation,LOW,2075-04-20,2124
 PL-006,PVC,Steam,125.0,80.0,75.0,2.0,12.0,2026-07-14,Faheem,1.0,9.765625,65.234375,6.25,7.68,83,Moderate,5,2,10,High,Continue Monitoring,MEDIUM,2059-02-16,2091
+
+
+
+PL-006,Carbon Steel,Crude Oil,406,14,13.5,5.0,138,2026-07-15,Ahmed Khan,0.10,6.10,74.00,3.57,2.21,94,Low,2,3,6,Medium,Continue Normal Operation,LOW,2063-07-15,2100
+PL-003,Stainless Steel,Diesel,323.9,12,11.2,4.8,145,2026-07-15,Usman Ali,0.08,4.95,78.13,6.67,2.26,92,Low,2,3,6,Medium,Continue Monitoring,LOW,2065-08-01,2104
+PL-005,Duplex Steel,Natural Gas,273,16,15.4,6.5,155,2026-07-15,Hassan Raza,0.05,5.80,192.00,3.75,2.66,98,Low,1,2,2,Low,Continue Normal Operation,LOW,2122-07-15,2218
+PL-001,Carbon Steel,Water,219,10,8.8,2.5,138,2026-07-15,Ali Hassan,0.15,3.60,34.67,12.00,2.44,82,Moderate,3,2,6,Medium,Continue Monitoring,MEDIUM,2043-01-20,2061
+PL-002,Carbon Steel,Steam,168,8,6.7,3.8,138,2026-07-15,Faizan Malik,0.18,3.10,20.00,16.25,2.16,75,Moderate,4,2,8,Medium,Schedule Detailed Inspection,HIGH,2036-07-15,2047
+PL-003,PVC,Water,110,12,11.8,1.2,12,2026-07-15,Bilal Ahmed,0.02,1.20,530.00,1.67,9.83,100,Low,1,1,1,Low,Continue Normal Operation,LOW,2291-07-15,2556
+PL-004,Carbon Steel,Chemical,508,18,16.2,8.0,145,2026-07-15,Muhammad Ali,0.25,8.60,30.40,10.00,1.88,79,Moderate,4,3,12,High,Increase Inspection Frequency,HIGH,2041-09-10,2057
+PL-005,Stainless Steel,Diesel,355.6,14,13.6,5.2,150,2026-07-15,Zain Iqbal,0.06,5.40,136.67,2.86,2.52,97,Low,1,2,2,Low,Continue Normal Operation,LOW,2094-11-30,2163
+PL-006,Carbon Steel,Crude Oil,610,20,17.4,9.5,138,2026-07-15,Saad Khan,0.35,10.50,19.71,13.00,1.66,72,High,5,3,15,High,Repair Recommended,HIGH,2036-05-18,2046
+PL-001,Duplex Steel,LPG,273,12,11.7,6.8,160,2026-07-15,Imran Shah,0.04,4.30,185.00,2.50,2.72,99,Low,1,4,4,Low,Continue Normal Operation,LOW,2119-01-01,2205
+PL-002,Carbon Steel,Produced Water,406,16,13.8,5.8,138,2026-07-15,Adeel Tariq,0.28,6.70,25.36,13.75,2.06,76,Moderate,4,3,12,High,Increase Inspection Frequency,HIGH,2039-03-25,2052
+PL-003,Stainless Steel,Chemical,168,10,9.5,4.0,145,2026-07-15,Shahbaz Ali,0.05,2.80,134.00,5.00,3.39,96,Low,1,3,3,Low,Continue Monitoring,LOW,2093-07-15,2160
+PL-004,Carbon Steel,Natural Gas,457,14,12.1,7.0,138,2026-07-15,Hamza Yousaf,0.22,7.80,19.55,13.57,1.55,70,High,5,4,20,Extreme,Immediate Maintenance,URGENT,2036-04-15,2046
+PL-005,Duplex Steel,Hydrogen,219,18,17.6,7.5,170,2026-07-15,Omer Farooq,0.03,4.20,446.67,2.22,4.19,100,Low,1,5,5,Medium,Continue Normal Operation,LOW,2249-07-15,2473
+PL-006,Carbon Steel,Crude Oil,323.9,12,10.2,5.5,138,2026-07-15,Fahad Noor,0.20,5.10,25.50,15.00,2.00,74,Moderate,4,3,12,High,Repair Recommended,HIGH,2039-04-10,2052
+
+
+PL-001,Carbon Steel,Crude Oil,508,12,11.95,5.5,138,2021-07-14,Muhammad Fahad,0.010,9.964,198.60,0.42,1.20,99,Low,1,4,4,Low,Continue Normal Operation,LOW,2120-07-14,2220
+PL-001,Carbon Steel,Crude Oil,508,12,11.90,5.5,138,2022-07-14,Muhammad Fahad,0.015,9.964,128.93,0.83,1.19,97,Low,1,4,4,Low,Continue Monitoring,LOW,2087-07-14,2151
+PL-001,Carbon Steel,Crude Oil,508,12,11.85,5.5,138,2023-07-14,Muhammad Fahad,0.020,9.964,94.30,1.25,1.19,94,Low,1,4,4,Low,Continue Monitoring,LOW,2071-07-14,2118
+
+PL-002,Duplex Steel,Chemical,167,23,22.60,9.0,139,2021-07-14,Hyt,0.100,5.270,173.30,1.74,4.29,99,Low,1,3,3,Low,Continue Normal Operation,LOW,2108-07-14,2195
+PL-002,Duplex Steel,Chemical,167,23,22.20,9.0,139,2022-07-14,Hyt,0.200,5.270,84.65,3.48,4.21,95,Low,2,3,6,Medium,Continue Monitoring,LOW,2065-07-14,2109
+PL-002,Duplex Steel,Chemical,167,23,21.80,9.0,139,2023-07-14,Hyt,0.350,5.270,47.23,5.22,4.14,89,Moderate,3,3,9,Medium,Continue Monitoring,MEDIUM,2047-07-14,2071
+
+PL-003,Stainless Steel,Diesel,406,10,9.80,4.2,140,2021-07-14,Ali Raza,0.050,6.018,75.64,2.00,1.63,98,Low,1,4,4,Low,Continue Normal Operation,LOW,2059-07-14,2097
+PL-003,Stainless Steel,Diesel,406,10,9.50,4.2,140,2022-07-14,Ali Raza,0.080,6.018,43.53,5.00,1.58,94,Low,2,4,8,Medium,Continue Monitoring,LOW,2044-07-14,2067
+PL-003,Stainless Steel,Diesel,406,10,9.20,4.2,140,2023-07-14,Ali Raza,0.100,6.018,31.82,8.00,1.53,90,Moderate,2,4,8,Medium,Continue Monitoring,MEDIUM,2039-07-14,2055
+
+PL-004,Carbon Steel,Water,273,14,13.70,3.0,138,2021-07-14,Hamza,0.050,3.960,194.80,2.14,3.46,100,Low,1,2,2,Low,Continue Normal Operation,LOW,2118-07-14,2216
+PL-004,Carbon Steel,Water,273,14,13.30,3.0,138,2022-07-14,Hamza,0.100,3.960,93.40,5.00,3.36,96,Low,1,2,2,Low,Continue Monitoring,LOW,2068-07-14,2110
+
+PL-005,Duplex Steel,Natural Gas,234,16,15.80,8.0,145,2021-07-14,Hammad,0.040,6.316,237.10,1.25,2.50,100,Low,1,3,3,Low,Continue Normal Operation,LOW,2140-07-14,2260
+PL-005,Duplex Steel,Natural Gas,234,16,15.50,8.0,145,2022-07-14,Hammad,0.060,6.316,152.70,3.13,2.45,98,Low,1,3,3,Low,Continue Monitoring,LOW,2098-07-14,2176
+
+PL-006,PVC,Steam,125,80,78.50,2.0,12,2021-07-14,Faheem,0.500,9.766,137.47,1.88,8.04,95,Moderate,3,2,6,Medium,Continue Monitoring,MEDIUM,2090-07-14,2158
+PL-006,PVC,Steam,125,80,77.00,2.0,12,2022-07-14,Faheem,0.700,9.766,96.05,3.75,7.89,90,Moderate,4,2,8,Medium,Increase Inspection Frequency,HIGH,2074-07-14,2122

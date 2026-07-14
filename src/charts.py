@@ -31,13 +31,13 @@ history = pd.read_csv("data/inspection_history.csv")
 
 history.rename(
     columns={
+        "Pipe ID": "pipe_id",
         "Inspection Date": "inspection_date",
         "Current Thickness (mm)": "current_thickness",
-        "Corrosion Rate (mm/year)": "corrosion_rate",
-        "Remaining Life (years)": "remaining_life",
+        "Corrosion Rate": "corrosion_rate",
+        "Remaining Life": "remaining_life",
         "Health Score": "health_score",
-        "Minimum Required Thickness (mm)": "minimum_required_thickness",
-    
+        "Minimum Required Thickness": "minimum_required_thickness",
     },
     inplace=True
 )
@@ -47,6 +47,18 @@ history["inspection_date"] = pd.to_datetime(
 )
 
 def corrosion_trend_chart(data):
+
+    data = data.rename(columns={
+    "Pipe ID": "pipe_id",
+    "Inspection Date": "inspection_date",
+    "Current Thickness (mm)": "current_thickness",
+    "Corrosion Rate": "corrosion_rate",
+    "Remaining Life": "remaining_life",
+    "Health Score": "health_score",
+    "Minimum Required Thickness": "minimum_required_thickness",
+})
+
+    data["inspection_date"] = pd.to_datetime(data["inspection_date"])
     """
     Displays the corrosion rate trend over time.
     """
@@ -105,6 +117,18 @@ def corrosion_trend_chart(data):
     return fig
 
 def thickness_history_chart(data):
+
+    data = data.rename(columns={
+    "Pipe ID": "pipe_id",
+    "Inspection Date": "inspection_date",
+    "Current Thickness (mm)": "current_thickness",
+    "Corrosion Rate": "corrosion_rate",
+    "Remaining Life": "remaining_life",
+    "Health Score": "health_score",
+    "Minimum Required Thickness": "minimum_required_thickness",
+})
+
+    data["inspection_date"] = pd.to_datetime(data["inspection_date"])
     """
     Displays pipeline wall thickness history.
     """
@@ -179,6 +203,18 @@ def thickness_history_chart(data):
     return fig
 
 def remaining_life_chart(data):
+
+    data = data.rename(columns={
+    "Pipe ID": "pipe_id",
+    "Inspection Date": "inspection_date",
+    "Current Thickness (mm)": "current_thickness",
+    "Corrosion Rate": "corrosion_rate",
+    "Remaining Life": "remaining_life",
+    "Health Score": "health_score",
+    "Minimum Required Thickness": "minimum_required_thickness",
+})
+
+    data["inspection_date"] = pd.to_datetime(data["inspection_date"])
     """
     Displays the remaining service life trend.
     """

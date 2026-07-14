@@ -104,11 +104,11 @@ Please perform additional inspections to enable trend analysis.
 
 latest_inspection = filtered["inspection_date"].max()
 
-avg_corrosion = filtered["corrosion_rate"].mean()
+avg_corrosion = filtered["Corrosion Rate"].mean()
 
-max_corrosion = filtered["corrosion_rate"].max()
+max_corrosion = filtered["Corrosion Rate"].max()
 
-min_remaining = filtered["remaining_life"].min()
+min_remaining = filtered["Remaining Life"].min()
 
 st.subheader("📊 Dashboard Summary")
 
