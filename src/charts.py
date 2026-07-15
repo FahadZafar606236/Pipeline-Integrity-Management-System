@@ -298,6 +298,17 @@ def remaining_life_chart(data):
     return fig
 
 def health_trend_chart(data):
+    data = data.rename(columns={
+        "Pipe ID": "pipe_id",
+        "Inspection Date": "inspection_date",
+        "Current Thickness (mm)": "current_thickness",
+        "Corrosion Rate": "corrosion_rate",
+        "Remaining Life": "remaining_life",
+        "Health Score": "health_score",
+        "Minimum Required Thickness": "minimum_required_thickness",
+    })
+
+    data["inspection_date"] = pd.to_datetime(data["inspection_date"])
     """
     Displays pipeline health score trend.
     """
@@ -378,12 +389,7 @@ def health_trend_chart(data):
     return fig
 
 
-def gauge_chart(data):
-    """
-    Displays pipeline health gauge.
-    """
 
-    pass
 
 
 def risk_matrix_chart(data):
@@ -392,3 +398,195 @@ def risk_matrix_chart(data):
     """
 
     pass        
+
+
+import os
+
+
+def gauge_chart(value, title, maximum):
+
+    fig = go.Figure(
+        go.Indicator(
+            mode="gauge+number",
+            value=value,
+
+            title={"text": title},
+
+            gauge={
+                "axis": {"range": [0, maximum]},
+
+                "bar": {
+                    "color": "#0F4C81"
+                },
+
+                "steps": [
+                    {"range": [0, maximum*0.4], "color": "#ff4d4d"},
+                    {"range": [maximum*0.4, maximum*0.7], "color": "#ffd966"},
+                    {"range": [maximum*0.7, maximum], "color": "#8fd694"},
+                ]
+            }
+        )
+    )
+
+    fig.update_layout(
+        template="plotly_white",
+        height=350,
+        width=350
+    )
+    
+    return fig
+
+
+def risk_matrix_chart(likelihood, consequence, pipe_id):
+
+    import plotly.graph_objects as go
+
+    z = [
+        [1, 2, 3, 4, 5],
+        [2, 4, 6, 8,10],
+        [3, 6, 9,12,15],
+        [4, 8,12,16,20],
+        [5,10,15,20,25]
+    ]
+
+    fig = go.Figure()
+
+    fig.add_trace(
+        go.Heatmap(
+            z=z,
+            x=[1,2,3,4,5],
+            y=[1,2,3,4,5],
+            colorscale=[
+                [0.00,"green"],
+                [0.40,"yellow"],
+                [0.70,"orange"],
+                [1.00,"red"]
+            ],
+            showscale=False
+        )
+    )
+
+    fig.add_trace(
+        go.Scatter(
+            x=[likelihood],
+            y=[consequence],
+            mode="markers+text",
+            text=[pipe_id],
+            textposition="top center",
+            marker=dict(
+                color="black",
+                size=18,
+                symbol="x"
+            ),
+            showlegend=False
+        )
+    )
+
+    fig.update_layout(
+
+        title="5 × 5 Pipeline Risk Matrix",
+
+        xaxis=dict(
+            title="Likelihood",
+            tickmode="array",
+            tickvals=[1,2,3,4,5]
+        ),
+
+        yaxis=dict(
+            title="Consequence",
+            tickmode="array",
+            tickvals=[1,2,3,4,5]
+        ),
+
+        template="plotly_white",
+
+        width=700,
+        height=650
+    )
+
+    return fig
+
+def export_pdf_charts(data):
+    """
+    Export all engineering charts as PNG images
+    for inclusion in PDF reports.
+    """
+
+    os.makedirs("assets/charts", exist_ok=True)
+
+    corrosion_trend_chart(data).write_image(
+        "assets/charts/corrosion_trend.png",
+        width=1200,
+        height=700
+    )
+
+    thickness_history_chart(data).write_image(
+        "assets/charts/thickness_history.png",
+        width=1200,
+        height=700
+    )
+
+    remaining_life_chart(data).write_image(
+        "assets/charts/remaining_life.png",
+        width=1200,
+        height=700
+    )
+
+    health_trend_chart(data).write_image(
+        "assets/charts/health_trend.png",
+        width=1200,
+        height=700
+    )
+
+    gauge_chart(
+        85,
+        "Pipeline Health Score",
+        100
+    ).write_image(
+        "assets/charts/health_gauge.png",
+        width=600,
+        height=600
+    )
+
+    gauge_chart(
+        0.25,
+        "Corrosion Rate (mm/year)",
+        1
+    ).write_image(
+        "assets/charts/corrosion_rate_gauge.png",
+        width=600,
+        height=600
+    )
+
+    gauge_chart(
+        18,
+        "Remaining Life (Years)",
+        30
+    ).write_image(
+        "assets/charts/remaining_life_gauge.png",
+        width=600,
+        height=600
+    )
+
+    gauge_chart(
+        35,
+        "Risk Score",
+        100
+    ).write_image(
+        "assets/charts/risk_score_gauge.png",
+        width=600,
+        height=600
+    )
+
+    risk_matrix_chart(
+        likelihood=3,
+        consequence=4,
+        pipe_id="PL-001"
+    ).write_image(
+        "assets/charts/risk_matrix.png",
+        width=800,
+        height=700
+    )
+import plotly.graph_objects as go
+
+
