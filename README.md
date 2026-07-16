@@ -27,4 +27,4 @@ A professional engineering dashboard for pipeline corrosion assessment, remainin
 
 ## Status
 
-Project under development.
+Project Version 1.0 Completed Successfully.
