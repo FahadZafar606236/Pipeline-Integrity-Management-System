@@ -1,4 +1,10 @@
 import streamlit as st
+
+st.set_page_config(
+    page_title="PIMS PRO",
+    page_icon="🛢️",
+    layout="wide"
+)
 from src.report_generator import generate_pdf_report
 
 def load_css():
