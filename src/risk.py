@@ -1,3 +1,4 @@
+import os
 import plotly.graph_objects as go
 import numpy as np
 
@@ -63,6 +64,15 @@ def risk_matrix_chart(likelihood, consequence):
         yaxis_title="Likelihood",
         width=700,
         height=600
+    )
+
+    # Save latest matrix for PDF
+    os.makedirs("assets/charts", exist_ok=True)
+
+    fig.write_image(
+        "assets/charts/risk_matrix.png",
+        width=900,
+        height=800
     )
 
     return fig

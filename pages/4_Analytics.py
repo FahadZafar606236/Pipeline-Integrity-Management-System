@@ -22,11 +22,12 @@ history["Inspection Date"] = pd.to_datetime(
 
 period = st.sidebar.selectbox(
     "Inspection Period",
-    (
+    (   
+        "All Data",
         "Last 6 Months",
         "Last Year",
         "Last 5 Years",
-        "All Data"
+        
     )
 )
 

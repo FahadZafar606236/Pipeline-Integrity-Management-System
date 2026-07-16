@@ -1,5 +1,5 @@
 import streamlit as st
-
+from src.report_generator import generate_pdf_report
 
 def load_css():
     with open("assets/styles.css") as f:
@@ -270,13 +270,13 @@ with col3:
     )
 
 with col4:
-    st.button(
-        "📤 Export",
-        disabled=True,
-        use_container_width=True,
-        help="Export functionality will be implemented later."
+    generate_report = st.button(
+        "📄 Generate Report",
+        use_container_width=True
     )
 
+# Placeholder for Save / Report messages
+message_placeholder = st.empty()
 
 if calculate:
     with st.spinner("Performing engineering calculations... Please wait."):
@@ -668,7 +668,9 @@ if st.session_state.get("health_score") is not None:
 if save:
 
     if st.session_state.get("health_score") is None:
-        st.error("Please calculate the inspection before saving.")
+        message_placeholder.error(
+            "Please calculate the inspection before saving."
+        )
 
     else:
 
@@ -699,7 +701,9 @@ if save:
             "Next Inspection": st.session_state["next_inspection_date"],
             "Estimated Failure Year": st.session_state["estimated_failure_year"],
         }
-
+        # Save latest inspection in session
+        st.session_state["saved_record"] = record
+        
         df = pd.DataFrame([record], columns=CSV_COLUMNS)
 
         os.makedirs("data", exist_ok=True)
@@ -719,4 +723,76 @@ if save:
                 index=False
             )
 
-        st.success("✅ Inspection saved successfully.")
+        message_placeholder.success(
+            "✅ Inspection saved successfully."
+        )
+
+
+if generate_report:
+
+    if "saved_record" not in st.session_state:
+
+       message_placeholder.error(
+            "⚠ Please save the inspection before generating the report."
+        )
+    else:
+
+        record = st.session_state["saved_record"]
+
+        report_data = {
+
+            "pipe_id": record["Pipe ID"],
+
+            "pipeline_name": record["Pipe ID"],
+
+            "material": record["Material"],
+
+            "fluid": record["Fluid"],
+
+            "inspector": record["Inspector"],
+
+            "inspection_date": str(record["Inspection Date"]),
+
+            "pressure": record["Operating Pressure (MPa)"],
+
+            "corrosion_rate": record["Corrosion Rate"],
+
+            "minimum_thickness": record["Minimum Required Thickness"],
+
+            "remaining_life": record["Remaining Life"],
+
+            "corrosion_loss": record["Corrosion Loss %"],
+
+            "safety_factor": record["Safety Factor"],
+
+            "health_score": record["Health Score"],
+
+            "failure_year": record["Estimated Failure Year"],
+
+            "risk_level": record["Risk Level"],
+
+            "likelihood": record["Likelihood"],
+
+            "consequence": record["Consequence"],
+
+            "risk_score": record["Risk Score"]
+
+        }
+
+        try:
+
+            pdf_path = generate_pdf_report(report_data)
+
+            message_placeholder.success(
+                "✅ PDF Report Generated Successfully!"
+            )
+
+            message_placeholder.success(
+                f"✅ Report saved successfully.\n\nLocation:\n{pdf_path}"
+            )
+
+        except Exception as e:
+
+            message_placeholder.error(
+                f"❌ Report generation failed.\n\n{e}"
+            )

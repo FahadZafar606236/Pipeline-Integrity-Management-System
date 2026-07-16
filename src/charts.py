@@ -146,6 +146,23 @@ def thickness_history_chart(data):
         title="Pipeline Wall Thickness History"
     )
 
+    colors = [
+        "#00E5FF",   # Cyan
+        "#00FF9D",   # Green
+        "#FFD60A",   # Yellow
+        "#FF4D4D",   # Red
+        "#8A2BE2",   # Purple
+        "#FFA500",   # Orange
+    ]
+
+    for i, trace in enumerate(fig.data):
+
+        trace.line.color = colors[i % len(colors)]
+
+        trace.line.width = 3
+
+        trace.marker.size = 9
+    
     # Minimum Required Thickness
     fig.add_trace(
         go.Scatter(
@@ -232,6 +249,22 @@ def remaining_life_chart(data):
         title="Pipeline Remaining Service Life Trend"
     )
 
+    colors = [
+        "#00E5FF",
+        "#00FF9D",
+        "#FFD60A",
+        "#FF4D4D",
+        "#8A2BE2",
+        "#FFA500",
+    ]
+
+    for i, trace in enumerate(fig.data):
+
+        trace.line.color = colors[i % len(colors)]
+
+        trace.line.width = 3
+
+        trace.marker.size = 9
     # Make pipeline lines thicker
     fig.for_each_trace(
         lambda trace: trace.update(line=dict(width=3))
@@ -322,6 +355,22 @@ def health_trend_chart(data):
         title="Pipeline Health Score Trend"
     )
 
+    colors = [
+        "#00E5FF",
+        "#00FF9D",
+        "#FFD60A",
+        "#FF4D4D",
+        "#8A2BE2",
+        "#FFA500",
+    ]
+
+    for i, trace in enumerate(fig.data):
+
+        trace.line.color = colors[i % len(colors)]
+
+        trace.line.width = 3
+
+        trace.marker.size = 9
 
 
     # Good Health Zone (80–100)
@@ -392,12 +441,6 @@ def health_trend_chart(data):
 
 
 
-def risk_matrix_chart(data):
-    """
-    Displays engineering risk matrix.
-    """
-
-    pass        
 
 
 import os
@@ -514,6 +557,20 @@ def export_pdf_charts(data):
 
     os.makedirs("assets/charts", exist_ok=True)
 
+    data = data.rename(columns={
+        "Pipe ID": "pipe_id",
+        "Inspection Date": "inspection_date",
+        "Current Thickness (mm)": "current_thickness",
+        "Corrosion Rate": "corrosion_rate",
+        "Remaining Life": "remaining_life",
+        "Health Score": "health_score",
+        "Minimum Required Thickness": "minimum_required_thickness",
+    })
+
+    
+    
+    latest = data.sort_values("inspection_date").iloc[-1]
+    
     corrosion_trend_chart(data).write_image(
         "assets/charts/corrosion_trend.png",
         width=1200,
@@ -539,7 +596,7 @@ def export_pdf_charts(data):
     )
 
     gauge_chart(
-        85,
+         latest["health_score"],
         "Pipeline Health Score",
         100
     ).write_image(
@@ -549,7 +606,7 @@ def export_pdf_charts(data):
     )
 
     gauge_chart(
-        0.25,
+       latest["corrosion_rate"],
         "Corrosion Rate (mm/year)",
         1
     ).write_image(
@@ -559,7 +616,7 @@ def export_pdf_charts(data):
     )
 
     gauge_chart(
-        18,
+       latest["remaining_life"],
         "Remaining Life (Years)",
         30
     ).write_image(
@@ -569,7 +626,7 @@ def export_pdf_charts(data):
     )
 
     gauge_chart(
-        35,
+        latest["Risk Score"],
         "Risk Score",
         100
     ).write_image(
@@ -579,8 +636,8 @@ def export_pdf_charts(data):
     )
 
     risk_matrix_chart(
-        likelihood=3,
-        consequence=4,
+        likelihood=latest["Likelihood"],
+        consequence=latest["Consequence"],
         pipe_id="PL-001"
     ).write_image(
         "assets/charts/risk_matrix.png",

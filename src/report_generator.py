@@ -15,6 +15,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
 from src.charts import export_pdf_charts
+from src.risk import risk_matrix_chart
 
 from reportlab.platypus import (
     SimpleDocTemplate,
@@ -59,7 +60,30 @@ def add_footer(canvas, doc):
 def generate_pdf_report(data):
 
     history = pd.read_csv("data/inspection_history.csv")
+
+    # Filter only the current pipeline
+    history = history[
+        history["Pipe ID"] == data["pipe_id"]
+    ]
+
+    # Generate dynamic risk matrix
+    fig = risk_matrix_chart(
+        data["likelihood"],
+        data["consequence"]
+    )
+
+    fig.write_image(
+        "assets/charts/risk_matrix.png",
+        width=900,
+        height=900
+    )
+    # Generate charts only for this pipeline
     export_pdf_charts(history)
+    
+    risk_matrix_chart(
+        data["likelihood"],
+        data["consequence"]
+    )
     # -----------------------------
     # Create Reports Folder
     # -----------------------------
